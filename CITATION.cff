@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the accompanying paper."
+title: "Geometric Manifold Rectification for Imbalanced Learning"
+authors:
+  - family-names: Wang
+    given-names: Xubin
+  - family-names: Li
+    given-names: Qing
+  - family-names: Jia
+    given-names: Weijia
+version: "1.0.0"
+date-released: "2026-05-19"
+license: MIT
+repository-code: "https://github.com/wangxb96/gmr-imbalanced-learning"
+preferred-citation:
+  type: article
+  title: "Geometric Manifold Rectification for Imbalanced Learning"
+  authors:
+    - family-names: Wang
+      given-names: Xubin
+    - family-names: Li
+      given-names: Qing
+    - family-names: Jia
+      given-names: Weijia
+  journal: "IEEE Transactions on Pattern Analysis and Machine Intelligence"
+  year: 2026
