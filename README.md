@@ -13,7 +13,7 @@
 
 > **Geometric Manifold Rectification for Imbalanced Learning**  
 > Xubin Wang · Qing Li (Fellow, IEEE) · Weijia Jia (Fellow, IEEE)  
-> *IEEE Transactions on Pattern Analysis and Machine Intelligence — Under Review*
+> *Under Review*
 
 ---
 
@@ -38,8 +38,9 @@ gmr-imbalanced-learning/
 │   └── examples/
 │       └── quick_start.py      # Minimal runnable example
 ├── data/
-│   ├── benchmark_results_25datasets/       # 17 500-row matched-tuple artifact
-│   └── contemporary_baselines_25datasets/  # 9-method contemporary comparison
+│   ├── benchmark_results_25datasets/       # 43 750-row matched-tuple artifact (25 ds · 7 clf · 10 seeds)
+│   ├── contemporary_baselines_25datasets/  # 9-method contemporary comparison (15 750 rows)
+│   └── synthetic_2d_experiments/          # 2 000-run synthetic 2-D benchmark (5 scenarios)
 ├── assets/                     # README figures (paper figs → PNG)
 ├── DATA_CARD.md
 ├── CITATION.cff
@@ -259,13 +260,40 @@ When the gate activates, GMR shifts the minority–majority ratio by at most 1 %
 
 ## Reproducing Benchmark Artifacts
 
-Pre-computed derived CSVs are in `data/`. No re-running is needed to verify reported numbers:
+All pre-computed derived CSVs are in `data/`. No re-running is required.
+
+### 25-dataset real-world benchmark
 
 ```python
 import pandas as pd
 
-df = pd.read_csv("data/benchmark_results_25datasets/tpami_benchmark_results.csv")
+# 43 750 rows: 25 datasets × 7 classifiers × 10 seeds × (baseline + TomekLinks + 4 GMR variants)
+df = pd.read_csv("data/benchmark_results_25datasets/full_results.csv")
 print(df.groupby("method")["auprc"].mean().sort_values(ascending=False))
+```
+
+### Synthetic 2-D experiments
+
+The five synthetic 2-D scenarios (`results_variants.csv`) are the data used to produce the variants comparison figure. They cover 2 000 experiment runs across 4 GMR variants × 5 scenarios × 4 imbalance ratios × 5 seeds × 5 classifiers.
+
+```python
+df_syn = pd.read_csv("data/synthetic_2d_experiments/results_variants.csv")
+print(df_syn.groupby("variant")["auprc"].mean().sort_values(ascending=False))
+# GMR-Competitive      0.7537
+# GMR-Bidirectional    0.7532
+# GMR-DataGated        0.7521
+# GMR-ModelAgnostic    0.7514
+
+# Per-variant × per-scenario pivot
+pivot = pd.read_csv("data/synthetic_2d_experiments/summary_variants_by_dataset.csv")
+print(pivot)
+```
+
+### Contemporary baselines
+
+```python
+cont = pd.read_csv("data/contemporary_baselines_25datasets/contemporary_method_summary_vs_gmr.csv")
+print(cont)
 ```
 
 See [`DATA_CARD.md`](DATA_CARD.md) for the full data inventory and redistribution notes.
@@ -290,9 +318,8 @@ This repository contains **derived benchmark CSVs only** — no raw third-party 
 @article{wang2026gmr,
   title   = {Geometric Manifold Rectification for Imbalanced Learning},
   author  = {Wang, Xubin and Li, Qing and Jia, Weijia},
-  journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  journal = {Under review},
   year    = {2026},
-  note    = {Under review},
   url     = {https://github.com/wangxb96/gmr-imbalanced-learning}
 }
 ```
