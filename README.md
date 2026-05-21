@@ -272,21 +272,25 @@ df = pd.read_csv("data/benchmark_results_25datasets/full_results.csv")
 print(df.groupby("method")["auprc"].mean().sort_values(ascending=False))
 ```
 
-### Synthetic 2-D experiments
+### Synthetic S1-S5 (revised generator)
 
-The five synthetic 2-D scenarios (`results_variants.csv`) are the data used to produce the variants comparison figure. They cover 2 000 experiment runs across 4 GMR variants × 5 scenarios × 4 imbalance ratios × 5 seeds × 5 classifiers.
+The synthetic benchmark data in this repository is the revised S1-S5 suite (3,500 runs: 5 scenarios × 7 methods × 4 imbalance ratios × 5 seeds × 5 classifiers). The revised generator intentionally changes the geometry/noise strategy versus the earlier toy suite:
+
+- S1: anisotropic overlap + asymmetric boundary flips
+- S2: warped circles + radial jitter
+- S3: rotated moons + heteroscedastic noise
+- S4: minority bridge + clustered outliers
+- S5: correlated 50-D with heteroscale nuisance dimensions
 
 ```python
-df_syn = pd.read_csv("data/synthetic_2d_experiments/results_variants.csv")
-print(df_syn.groupby("variant")["auprc"].mean().sort_values(ascending=False))
-# GMR-Competitive      0.7537
-# GMR-Bidirectional    0.7532
-# GMR-DataGated        0.7521
-# GMR-ModelAgnostic    0.7514
+df_syn = pd.read_csv("data/synthetic_2d_experiments/results_s1s5_revised_full.csv")
+print(df_syn.groupby("method")["auprc"].mean().sort_values(ascending=False))
+# GMR            0.6315
+# TomekLinks     0.6256
+# None           0.6167
 
-# Per-variant × per-scenario pivot
-pivot = pd.read_csv("data/synthetic_2d_experiments/summary_variants_by_dataset.csv")
-print(pivot)
+summary = pd.read_csv("data/synthetic_2d_experiments/summary_s1s5_revised_by_scenario.csv")
+print(summary.head())
 ```
 
 ### Contemporary baselines
@@ -315,13 +319,14 @@ This repository contains **derived benchmark CSVs only** — no raw third-party 
 ## Citation
 
 ```bibtex
-@article{wang2026gmr,
+@article{wang2026geometric,
   title   = {Geometric Manifold Rectification for Imbalanced Learning},
   author  = {Wang, Xubin and Li, Qing and Jia, Weijia},
-  journal = {Under review},
-  year    = {2026},
-  url     = {https://github.com/wangxb96/gmr-imbalanced-learning}
+  journal = {arXiv preprint arXiv:2602.13045},
+  year    = {2026}
 }
 ```
+
+Paper link: [https://arxiv.org/pdf/2602.13045](https://arxiv.org/pdf/2602.13045)
 
 For machine-readable citation metadata, see [`CITATION.cff`](CITATION.cff).
